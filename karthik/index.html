@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KK Evoting Portal</title>
+  <link rel="stylesheet" href="kkk.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+  <div class="hdr-row">
+    <span class="logo">KK Evoting Portal</span>
+    <nav>
+      <a href="#" onclick="showPage('homeSection')">Home</a>
+      <a href="#" onclick="showPage('adminContestSection')">Admin Portal</a>
+      <a href="#" onclick="showPage('loginSection')">Voter Login</a>
+      <a href="#" onclick="showPage('helpSection')">Help</a>
+      <a href="#" onclick="showPage('aboutSection')">About</a>
+      <a href="#" id="navLogout" class="hide" onclick="logout()">Logout</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section id="homeSection" class="centerbox">
+    <h1>Welcome to KK Evoting</h1>
+    <p>
+      Secure, fair, and modern online voting.<br><br>
+      <b>Admins:</b> Enter any username and password. Each admin manages their own elections.<br>
+      <b>Voters:</b> Enter your contest name, roll number, and choose a password.<br><br>
+      Voting is only allowed during the admin-set time window.
+    </p>
+    <button class="smallbtn" onclick="showPage('loginSection')">Login (Voter)</button>
+    <button class="smallbtn" onclick="showPage('adminContestSection')">Admin Portal</button>
+  </section>
+
+  <section id="loginSection" class="centerbox hide">
+    <h2>Voter Login</h2>
+    <input id="contestNameEntry" placeholder="Enter Contest Name" autocomplete="off"/>
+    <input id="userRoll" placeholder="Enter Voter ID (Roll Number)" autocomplete="off"/>
+    <input id="userPwd" placeholder="Password" type="password" autocomplete="off"/>
+    <button onclick="voterLogin()">Login / Register</button>
+    <div class="note">
+      Enter contest name carefully.<br>
+      First time? Choose any password.<br>
+      Voting allowed only in contest time window.
+    </div>
+    <div id="pwdChangeBox" class="pwdChangeBox hide"></div>
+  </section>
+
+  <section id="adminContestSection" class="centerbox hide" style="max-width:520px;">
+    <h2>Admin Portal</h2>
+    <div id="adminLoginBox">
+      <input id="adminUserEntry" placeholder="Admin username" />
+      <input id="adminPwdEntry" type="password" placeholder="Choose any password" />
+      <button onclick="adminLogin()">Login as Admin</button>
+    </div>
+    <div id="adminContestBox" class="hide">
+      <h3>Create KK Evoting Contest</h3>
+      <input id="activeContestName" placeholder="Contest Name"/>
+      <textarea id="candidateNames" rows="2" placeholder="Candidate names (comma separated)"></textarea>
+      <textarea id="rollList" rows="4" placeholder="Eligible roll numbers (comma, newline, or space separated)"></textarea>
+      
+      <label for="voteStartTime">Voting Start Date and Time:</label>
+      <input type="datetime-local" id="voteStartTime" />
+      
+      <label for="voteEndTime">Voting End Date and Time:</label>
+      <input type="datetime-local" id="voteEndTime" />
+
+      <button onclick="activateContest()">Activate / Overwrite Contest</button>
+      <div class="note">Share contest name and time window with voters.<br> Voters choose password when first logging in.</div>
+      <div id="userTableBox"></div>
+      <button onclick="showResultsIfAdmin()" style="margin-top:16px;">Show Results</button>
+      <div id="pastContests"></div>
+    </div>
+  </section>
+
+  <section id="voteSection" class="centerbox hide">
+    <h2>Vote For Your Candidate</h2>
+    <div id="userLabel" class="note"></div>
+    <select id="candidateSelect"></select>
+    <button onclick="castVote()">Submit Vote</button>
+    <div id="voteMsg" class="note"></div>
+    <button class="smallbtn" id="changePwdBtn" onclick="showPwdChange()">Change Password</button>
+    <div id="pwdChangeArea" class="pwdChangeBox hide"></div>
+  </section>
+
+  <section id="adminResultSection" class="centerbox hide" style="max-width:535px;">
+    <h2>Live Voting Results</h2>
+    <div class="adminMsg">Results are specific to each contest.</div>
+    <canvas id="resultChart" height="230"></canvas>
+    <button onclick="endContest()" style="margin-top:25px;background:#ff4c5e">End & Finish Contest</button>
+    <div id="voteSummary"></div>
+    <div id="pastResults" style="margin-top:30px;"></div>
+  </section>
+
+  <section id="helpSection" class="centerbox hide" style="max-width:430px;">
+    <h2>Help & FAQ</h2>
+    <ul>
+      <li>Voting allowed only during the contest start and end date/time.</li>
+      <li>Admins create contests and set voting times.</li>
+      <li>Voters login with contest name, roll number, and password.</li>
+      <li>Results are automatically updated and viewable.</li>
+    </ul>
+    <button class="smallbtn" onclick="showPage('homeSection')">Back to Home</button>
+  </section>
+
+  <section id="aboutSection" class="centerbox hide">
+    <h2>About KK Evoting & Its Uses</h2>
+    <ul>
+      <li>KK Evoting is a secure electronic voting system with voting time control.</li>
+      <li>It helps manage transparent and accountable elections.</li>
+      <li>Multi-admin support and independent contest management.</li>
+      <li>Persistent results accessible anytime.</li>
+    </ul>
+    <button class="smallbtn" onclick="showPage('homeSection')">Back to Home</button>
+  </section>
+</main>
+<script src="kk.js"></script>
+</body>
+</html>
